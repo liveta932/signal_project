@@ -1,4 +1,4 @@
-package com.data_management;
+package data_management;
 
 import java.util.ArrayList;
 import java.util.HashMap;
