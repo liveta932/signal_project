@@ -5,20 +5,22 @@ import java.util.Random;
 import com.cardio_generator.outputs.OutputStrategy;
 
 /**
- * Generates alert data for patients.
+ * Generates simulated alert events for patients.
+ * This class does not check real medical conditions. Instead, it randomly simulates whether an alert becomes triggered or resolved for each patient.
+ * It keeps track of the current alert state so the output changes in a more realistic way over time.
  */
-
 public class AlertGenerator implements PatientDataGenerator {
 
     // changed the name of final variable
     public static final Random RANDOM_GENERATOR = new Random();
 
-    // changed the name to camelCase for variables
-    private boolean[] alertStates; // false = resolved, true = pressed
+    // changed the name to camelCase for variables, and to final
+    private final boolean[] alertStates; // false = resolved, true = pressed
+
 
     /**
      * Creates an alert generator.
-     *
+     * Initializes the alert state for all patients. Each patient starts with no active alert.
      * @param patientCount number of patients
      */
 
@@ -29,12 +31,12 @@ public class AlertGenerator implements PatientDataGenerator {
 
     /**
      * Generates alert data for one patient.
-     *
+     * If the patient already has an active alert, there is a high chance the alert will be resolved. If there is no active alert, there is a smaller
+     * random chance that a new alert will be triggered. The result is then sent using the selected output strategy.
      * @param patientId ID of the patient
      * @param outputStrategy output method for the generated data
-     * @throws ArrayIndexOutOfBoundsException if patient ID is invalid
+     * @throws ArrayIndexOutOfBoundsException if the patient ID is outside the valid range
      */
-
     @Override
     public void generate(int patientId, OutputStrategy outputStrategy) {
         try {

@@ -22,23 +22,24 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
- * Runs the health data simulation for multiple patients.
+ * This class runs the whole simulation.
+ * It creates fake health data for many patients and sends it somewhere (console, file).
+ * It also handles arguments from command line and starts all generator tasks.
  */
 
 public class HealthDataSimulator {
-
     private static int patientCount = 50; // Default number of patients
     private static ScheduledExecutorService scheduler;
     private static OutputStrategy outputStrategy = new ConsoleOutputStrategy(); // Default output strategy
     private static final Random random = new Random();
 
     /**
-     * Starts the simulator.
+     * Main method, program starts here.
+     * It reads the arguments, creates the patients, and starts the simulation.
      *
-     * @param args command line arguments
-     * @throws IOException if an output directory cannot be created
+     * @param args arguments from command line
+     * @throws IOException if output folder cannot be created
      */
-
     public static void main(String[] args) throws IOException {
 
         parseArguments(args);
@@ -52,10 +53,11 @@ public class HealthDataSimulator {
     }
 
     /**
-     * Reads command line arguments.
+     * Reads command line arguments and sets options for the simulator.
+     * For example, user can change patient count or output type.
      *
      * @param args command line arguments
-     * @throws IOException if a file directory cannot be created
+     * @throws IOException if a file directory must be created and fails
      */
 
     private static void parseArguments(String[] args) throws IOException {
@@ -141,7 +143,7 @@ public class HealthDataSimulator {
     }
 
     /**
-     * Creates patient IDs.
+     * Creates patient IDs from 1 until patientCount.
      *
      * @param patientCount number of patients
      * @return list of patient IDs
@@ -155,12 +157,14 @@ public class HealthDataSimulator {
         return patientIds;
     }
 
-    /**
-     * Schedules generator tasks for all patients.
-     *
-     * @param patientIds list of patient IDs
-     */
 
+    /**
+     * * Schedules all generator tasks for all patients.
+     * * Different generators run with different time intervals.
+     * *
+     * * @param patientIds list of patient IDs
+     *
+     */
     private static void scheduleTasksForPatients(List<Integer> patientIds) {
         ECGDataGenerator ecgDataGenerator = new ECGDataGenerator(patientCount);
         BloodSaturationDataGenerator bloodSaturationDataGenerator = new BloodSaturationDataGenerator(patientCount);
@@ -178,7 +182,7 @@ public class HealthDataSimulator {
     }
 
     /**
-     * Schedules one task at a fixed rate.
+     * Schedules one task at a fixed rate. There is a small delay at the start.
      *
      * @param task task to run
      * @param period time between executions
