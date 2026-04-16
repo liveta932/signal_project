@@ -1,0 +1,12 @@
+
+# Data Access Layer System 
+
+This UML class diagram shows how the system receives data from different sources and prepares it for storage. The main idea is to keep input, parsing, and storage separated.
+
+The DataListener is an interface that defines how data is received. I used inheritance here for TCPDataListener, WebSocketDataListener, and FileDataListener because they all follow the same structure but connect to different sources. This would make it easy to add new data sources later without changing the rest of the system.
+
+DataSourceAdapter is the central class that connects everything together. It has associations with DataListener, DataParser, and DataStorage because it uses all of them but does not own them. It receives raw data from the listener, sends it to the parser, and then stores the result.
+
+The DataParser has a dependency on PatientRecord because it creates or returns this object after parsing the raw data. It does not store the records, so a dependency is the correct relationship.
+
+DataStorage is connected to the adapter with an association because it only receives data and stores it. The storage logic is kept separate from input and parsing logic.

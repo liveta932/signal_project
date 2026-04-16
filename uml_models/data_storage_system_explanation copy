@@ -1,0 +1,14 @@
+
+  # Data Storage System
+
+This diagram shows how patient data is stored and accessed in the system. The main class is DataStorage, which keeps all patient data in one place.
+
+DataStorage has a composition relationship with Patient, and Patient has composition with PatientRecord. I used composition here because patients belong to the storage, and records belong to the patient. If a patient is removed, their records should also be removed, so this shows strong ownership.
+
+The DataReader interface has a dependency to DataStorage. This is because it reads data and sends it to storage, but it does not keep it. It only uses DataStorage as a parameter, so a dependency is the correct relationship.
+
+DataRetriever is connected to DataStorage and AccessController with associations. It uses both of them to retrieve data. It gets the records from storage and checks permissions through AccessController. I kept this separate from DataStorage so that querying logic and storage logic are not mixed.
+
+AccessController is used to control who can access patient data. It checks roles before allowing access, which is important for security.
+
+RetentionPolicy is connected to DataStorage because storage uses it to decide when old data should be deleted. This shows that deletion logic is separated from storage.

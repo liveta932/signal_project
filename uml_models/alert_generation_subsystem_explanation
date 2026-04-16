@@ -1,0 +1,15 @@
+
+  # Alert Generation System
+
+This diagram shows how the alert system works in CHMS. The main idea of this subsystem is to monitor patient data and create alerts when values are not normal.
+
+The AlertGenerator is the main class. It uses DataStorage to get patient data, which is shown as an association because it only reads the data and does not own it. I separated these two classes so that data storage and alert logic are independent. This makes the system easier to update or change later.
+
+The relationship between DataStorage and Patient, and between Patient and PatientRecord, is composition. I used composition because patients belong to the storage, and records belong to the patient. If a patient is removed, their records should also be removed, so this shows strong ownership.
+
+The AlertGenerator has a dependency to Patient and Alert. This is because it uses these classes in its methods but does not store them directly. It checks patient data and creates alerts when needed.
+
+The ThresholdRule class is connected to both Patient and AlertGenerator. Each patient can have multiple rules, so I used a one-to-many relationship. The generator uses these rules to decide if a value is outside the normal range.
+
+Finally, AlertManager is connected to Alert with a simple association. It manages and sends multiple alerts, so the multiplicity is 0..*. I separated this from AlertGenerator so that creating alerts and sending them are different responsibilities.
+

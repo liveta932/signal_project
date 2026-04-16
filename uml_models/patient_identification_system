@@ -1,0 +1,12 @@
+
+# Patient Identification System 
+
+This class diagram shows how the system matches incoming patient IDs with real hospital records. The main class here is PatientIdentifier, which is responsible for finding the correct patient.
+
+PatientIdentifier is connected to HospitalDatabase with an association because it uses the database to search for patients but does not own it. The database stores multiple HospitalPatient objects, which is shown with a composition relationship. This means that patient records belong to the database and are managed by it.
+
+The PatientIdentifier also connects to IdentityManager. I separated this because matching patients and handling errors are different responsibilities. If something goes wrong, like no match is found, the manager handles it.
+
+There is a dependency between PatientIdentifier and HospitalPatient because the identifier returns or works with patient objects but does not store them directly.
+
+IdentityManager has a dependency to IdentityAlert. This is used when there is a mismatch or problem with identification. Instead of mixing this logic inside other classes, I created a separate alert class.

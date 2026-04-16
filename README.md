@@ -67,3 +67,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Project Members
 
 - Student ID: 6364054
+
+## UML Models
+
+The UML diagrams and explanations are available in the `uml_models` folder.
+
+- Alert Generation System
+- Data Storage System
+- Patient Identification System
+- Data Access Layer System
