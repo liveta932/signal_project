@@ -72,7 +72,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 The UML diagrams and explanations are available in the `uml_models` folder.
 
-- Alert Generation System
-- Data Storage System
-- Patient Identification System
-- Data Access Layer System
+- [Alert Generation System](uml_models/alert_generation_system.png)
+- [Alert Generation Explanation](uml_models/alert_generation_system_explanation)
+
+- [Data Storage System](uml_models/data_storage_system.png)
+- [Data Storage Explanation](uml_models/data_storage_system_explanation)
+
+- [Patient Identification System](uml_models/patient_identification_system.png)
+- [Patient Identification Explanation](uml_models/patient_identification_system)
+
+- [Data Access Layer System](uml_models/data_access_layer_system.png)
+- [Data Access Layer Explanation](uml_models/data_access_layer_system)
