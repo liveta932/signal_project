@@ -6,5 +6,5 @@ The total project coverage is 44% because the simulator, generator, and output p
 
 ## Screenshots
 
-- Unit test verification: `submission_part3/screenshots/unit-tests-passed.png`
-- Code coverage report: `submission_part3/screenshots/jacoco-coverage-report.png`
+- [Unit test verification](screenshots/unit-tests-passed.png)
+- [Code coverage report](screenshots/jacoco-coverage-report.png)
