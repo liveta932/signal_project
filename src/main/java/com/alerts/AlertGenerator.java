@@ -2,6 +2,10 @@ package com.alerts;
 
 import data_management.DataStorage;
 import data_management.Patient;
+import data_management.PatientRecord;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The {@code AlertGenerator} class is responsible for monitoring patient data
@@ -11,6 +15,8 @@ import data_management.Patient;
  */
 public class AlertGenerator {
     private DataStorage dataStorage;
+    private List<Alert> alerts;
+    private List<AlertRule> rules;
 
     /**
      * Constructs an {@code AlertGenerator} with a specified {@code DataStorage}.
@@ -22,6 +28,16 @@ public class AlertGenerator {
      */
     public AlertGenerator(DataStorage dataStorage) {
         this.dataStorage = dataStorage;
+        this.alerts = new ArrayList<>();
+        this.rules = new ArrayList<>();
+
+        rules.add(new CriticalBloodPressureRule());
+        rules.add(new BloodPressureTrendRule());
+        rules.add(new LowSaturationRule());
+        rules.add(new RapidSaturationDropRule());
+        rules.add(new HypotensiveHypoxemiaRule());
+        rules.add(new AbnormalEcgRule());
+        rules.add(new TriggeredAlertRule());
     }
 
     /**
@@ -36,6 +52,15 @@ public class AlertGenerator {
      */
     public void evaluateData(Patient patient) {
         // Implementation goes here
+        List <PatientRecord> records = patient.getRecords(0, System.currentTimeMillis());
+
+        for (AlertRule rule : rules) {
+            List<Alert> alerts = rule.check(records);
+
+            for (Alert alert : alerts) {
+                triggerAlert(alert);
+            }
+        }
     }
 
     /**
@@ -48,5 +73,11 @@ public class AlertGenerator {
      */
     private void triggerAlert(Alert alert) {
         // Implementation might involve logging the alert or notifying staff
+        alerts.add(alert);
     }
+
+    public List<Alert> getAlerts() {
+        return alerts;
+    }
+
 }

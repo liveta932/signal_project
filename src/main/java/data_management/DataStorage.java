@@ -83,29 +83,27 @@ public class DataStorage {
      * @param args command line arguments
      */
     public static void main(String[] args) {
-        // DataReader is not defined in this scope, should be initialized appropriately.
-        // DataReader reader = new SomeDataReaderImplementation("path/to/data");
+        // Create the storage object where patient records will be saved.
         DataStorage storage = new DataStorage();
 
-        // Assuming the reader has been properly initialized and can read data into the
-        // storage
-        // reader.readData(storage);
-
-        // Example of using DataStorage to retrieve and print records for a patient
-        List<PatientRecord> records = storage.getRecords(1, 1700000000000L, 1800000000000L);
-        for (PatientRecord record : records) {
-            System.out.println("Record for Patient ID: " + record.getPatientId() +
-                    ", Type: " + record.getRecordType() +
-                    ", Data: " + record.getMeasurementValue() +
-                    ", Timestamp: " + record.getTimestamp());
+        // Use the folder given in the command line.
+        // If no folder is given, use "output" as the default folder.
+        String folderName;
+        if (args.length > 0) {
+            folderName = args[0];
+        } else {
+            folderName = "output";
         }
 
-        // Initialize the AlertGenerator with the storage
-        AlertGenerator alertGenerator = new AlertGenerator(storage);
+        // Create a FileDataReader to read patient data from the output folder.
+        DataReader reader = new FileDataReader(folderName);
 
-        // Evaluate all patients' data to check for conditions that may trigger alerts
-        for (Patient patient : storage.getAllPatients()) {
-            alertGenerator.evaluateData(patient);
+        try {
+            // Read the patient data files and store the records in DataStorage.
+            reader.readData(storage);
+        } catch (Exception e) {
+            System.err.println("Could not read data from folder: " + folderName);
+            System.err.println(e.getMessage());
         }
     }
 }
