@@ -4,8 +4,7 @@ import data_management.PatientRecord;
 import java.util.List;
 
 /**
- * Represents one alert rule. Each alert rule checks patient records for one
- * specific medical condition.
+ * Represents one alert rule. Each alert rule checks patient records for one specific medical condition.
  */
 
 public interface AlertRule {

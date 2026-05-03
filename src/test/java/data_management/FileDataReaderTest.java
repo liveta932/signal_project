@@ -33,7 +33,8 @@ public class FileDataReaderTest {
         writer.write("Patient ID: 1, Timestamp: 1714376789051, Label: ECG, Data: 0.50\n");
         writer.close();
 
-        DataStorage dataStorage = new DataStorage();
+        DataStorage dataStorage = DataStorage.getInstance();
+        dataStorage.clear();
         FileDataReader fileDataReader = new FileDataReader("test_output");
         fileDataReader.readData(dataStorage);
 

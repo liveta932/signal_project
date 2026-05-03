@@ -1,6 +1,7 @@
 package com.alerts;
 
 import data_management.PatientRecord;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,12 @@ import java.util.List;
  */
 
 public class LowSaturationRule implements AlertRule {
+
+    private final AlertFactory alertFactory;
+
+    public LowSaturationRule() {
+        this.alertFactory = new BloodOxygenAlertFactory();
+    }
 
     /**
      * Checks records for low saturation values.
@@ -20,14 +27,11 @@ public class LowSaturationRule implements AlertRule {
     @Override
     public List<Alert> check(List<PatientRecord> records) {
         List<Alert> alerts = new ArrayList<>();
-
         for (PatientRecord record : records) {
             if (record.getRecordType().equals("Saturation") && record.getMeasurementValue() < 92) {
-                alerts.add(new Alert(String.valueOf(record.getPatientId()),
-                        "Low blood oxygen saturation", record.getTimestamp()));
+                alerts.add(alertFactory.createAlert(String.valueOf(record.getPatientId()), "Low blood oxygen saturation", record.getTimestamp()));
             }
         }
-
         return alerts;
     }
 }

@@ -6,11 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Checks for increasing or decreasing blood pressure trends. An alert is created if
- * three consecutive readings increase or decrease by more than 10 mmHg each.
+ * Checks for increasing or decreasing blood pressure trends. An alert is created if three consecutive readings increase or decrease by more than 10 mmHg each.
  */
 
 public class BloodPressureTrendRule implements AlertRule {
+
+    private final AlertFactory alertFactory;
+
+    public BloodPressureTrendRule() {
+        this.alertFactory = new BloodPressureAlertFactory();
+    }
 
     /**
      * Checks systolic and diastolic pressure records for trends.
@@ -45,32 +50,22 @@ public class BloodPressureTrendRule implements AlertRule {
             }
         }
 
-
-        for (int i = 0; i < pressureRecords.size()-2; i++) {
+        for (int i = 0; i < pressureRecords.size() - 2; i++) {
             PatientRecord first = pressureRecords.get(i);
-            PatientRecord second = pressureRecords.get(i+1);
-            PatientRecord third = pressureRecords.get(i+2);
-
-            double changeOne = second.getMeasurementValue()-first.getMeasurementValue();
-            double changeTwo = third.getMeasurementValue()-second.getMeasurementValue();
-
+            PatientRecord second = pressureRecords.get(i + 1);
+            PatientRecord third = pressureRecords.get(i + 2);
+            double changeOne = second.getMeasurementValue() - first.getMeasurementValue();
+            double changeTwo = third.getMeasurementValue() - second.getMeasurementValue();
             if (changeOne > 10 && changeTwo > 10) {
-                alerts.add(new Alert(
-                        String.valueOf(third.getPatientId()),
-                        "Increasing trend of " + pressureType,
-                        third.getTimestamp()
-                ));
+                alerts.add(alertFactory.createAlert(
+                        String.valueOf(third.getPatientId()), "Increasing trend of " + pressureType, third.getTimestamp()));
             }
 
             if (changeOne < -10 && changeTwo < -10) {
-                alerts.add(new Alert(
-                        String.valueOf(third.getPatientId()),
-                        "Decreasing trend of " + pressureType,
-                        third.getTimestamp()
-                ));
+                alerts.add(alertFactory.createAlert(
+                        String.valueOf(third.getPatientId()), "Decreasing trend of " + pressureType, third.getTimestamp()));
             }
         }
-
         return alerts;
     }
 }

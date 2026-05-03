@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.alerts.AlertGenerator;
 
 /**
  * Manages storage and retrieval of patient data within a healthcare monitoring
@@ -13,14 +12,28 @@ import com.alerts.AlertGenerator;
  * patient IDs.
  */
 public class DataStorage {
+    private static DataStorage instance;
     private Map<Integer, Patient> patientMap; // Stores patient objects indexed by their unique patient ID.
 
     /**
      * Constructs a new instance of DataStorage, initializing the underlying storage
      * structure.
      */
-    public DataStorage() {
+    private DataStorage() {
         this.patientMap = new HashMap<>();
+    }
+
+    /**
+     * Returns the single instance of DataStorage.
+     *
+     * @return the single DataStorage instance
+     */
+
+    public static DataStorage getInstance() {
+        if (instance == null) {
+            instance = new DataStorage();
+        }
+        return instance;
     }
 
     /**
@@ -76,15 +89,23 @@ public class DataStorage {
     }
 
     /**
+     * Clears all stored patient data.
+     * This is useful for tests because DataStorage is now a singleton.
+     */
+    public void clear() {
+        patientMap.clear();
+    }
+
+    /**
      * The main method for the DataStorage class.
      * Initializes the system, reads data into storage, and continuously monitors
      * and evaluates patient data.
-     * 
+     *
      * @param args command line arguments
      */
     public static void main(String[] args) {
-        // Create the storage object where patient records will be saved.
-        DataStorage storage = new DataStorage();
+        // Get the singleton storage object where patient records will be saved.
+        DataStorage storage = DataStorage.getInstance();
 
         // Use the folder given in the command line.
         // If no folder is given, use "output" as the default folder.

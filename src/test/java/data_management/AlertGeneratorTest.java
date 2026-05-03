@@ -19,7 +19,8 @@ public class AlertGeneratorTest {
 
     @Test
     public void testEvaluateDataCreatesCriticalBloodPressureAlert() {
-        DataStorage dataStorage = new DataStorage();
+        DataStorage dataStorage = DataStorage.getInstance();
+        dataStorage.clear();
         dataStorage.addPatientData(1, 181, "SystolicPressure", 1000L);
         Patient patient = dataStorage.getAllPatients().get(0);
         AlertGenerator alertGenerator = new AlertGenerator(dataStorage);
@@ -35,7 +36,8 @@ public class AlertGeneratorTest {
 
     @Test
     public void testEvaluateDataCreatesLowSaturationAlert() {
-        DataStorage dataStorage = new DataStorage();
+        DataStorage dataStorage = DataStorage.getInstance();
+        dataStorage.clear();
         dataStorage.addPatientData(1, 91, "Saturation", 1000L);
         Patient patient = dataStorage.getAllPatients().get(0);
         AlertGenerator alertGenerator = new AlertGenerator(dataStorage);
@@ -51,8 +53,8 @@ public class AlertGeneratorTest {
 
     @Test
     public void testEvaluateDataWithNormalDataCreatesNoAlert() {
-        DataStorage dataStorage = new DataStorage();
-
+        DataStorage dataStorage = DataStorage.getInstance();
+        dataStorage.clear();
         dataStorage.addPatientData(1, 120, "SystolicPressure", 1000L);
         dataStorage.addPatientData(1, 80, "DiastolicPressure", 2000L);
         dataStorage.addPatientData(1, 98, "Saturation", 3000L);

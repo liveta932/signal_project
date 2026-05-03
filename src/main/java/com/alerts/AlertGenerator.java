@@ -3,81 +3,67 @@ package com.alerts;
 import data_management.DataStorage;
 import data_management.Patient;
 import data_management.PatientRecord;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The {@code AlertGenerator} class is responsible for monitoring patient data
- * and generating alerts when certain predefined conditions are met. This class
- * relies on a {@link DataStorage} instance to access patient data and evaluate
- * it against specific health criteria.
+ * The AlertGenerator class is responsible for monitoring patient data and generating alerts when certain predefined conditions are met.
  */
+
 public class AlertGenerator {
     private DataStorage dataStorage;
     private List<Alert> alerts;
-    private List<AlertRule> rules;
+    private List<AlertStrategy> strategies;
 
     /**
-     * Constructs an {@code AlertGenerator} with a specified {@code DataStorage}.
-     * The {@code DataStorage} is used to retrieve patient data that this class
-     * will monitor and evaluate.
+     * Constructs an AlertGenerator with a specified DataStorage.
      *
-     * @param dataStorage the data storage system that provides access to patient
-     *                    data
+     * @param dataStorage the data storage system that provides access to patient data
      */
+
     public AlertGenerator(DataStorage dataStorage) {
         this.dataStorage = dataStorage;
         this.alerts = new ArrayList<>();
-        this.rules = new ArrayList<>();
+        this.strategies = new ArrayList<>();
 
-        rules.add(new CriticalBloodPressureRule());
-        rules.add(new BloodPressureTrendRule());
-        rules.add(new LowSaturationRule());
-        rules.add(new RapidSaturationDropRule());
-        rules.add(new HypotensiveHypoxemiaRule());
-        rules.add(new AbnormalEcgRule());
-        rules.add(new TriggeredAlertRule());
+        strategies.add(new BloodPressureStrategy());
+        strategies.add(new OxygenSaturationStrategy());
+        strategies.add(new HeartRateStrategy());
     }
 
     /**
-     * Evaluates the specified patient's data to determine if any alert conditions
-     * are met. If a condition is met, an alert is triggered via the
-     * {@link #triggerAlert}
-     * method. This method should define the specific conditions under which an
-     * alert
-     * will be triggered.
+     * Evaluates the specified patient's data to determine if any alert conditions are met.
      *
      * @param patient the patient data to evaluate for alert conditions
      */
+
     public void evaluateData(Patient patient) {
-        // Implementation goes here
-        List <PatientRecord> records = patient.getRecords(0, System.currentTimeMillis());
-
-        for (AlertRule rule : rules) {
-            List<Alert> alerts = rule.check(records);
-
-            for (Alert alert : alerts) {
+        List<PatientRecord> records = patient.getRecords(0, System.currentTimeMillis());
+        for (AlertStrategy strategy : strategies) {
+            List<Alert> createdAlerts = strategy.checkAlert(records);
+            for (Alert alert : createdAlerts) {
                 triggerAlert(alert);
             }
         }
     }
 
     /**
-     * Triggers an alert for the monitoring system. This method can be extended to
-     * notify medical staff, log the alert, or perform other actions. The method
-     * currently assumes that the alert information is fully formed when passed as
-     * an argument.
-     *
-     * @param alert the alert object containing details about the alert condition
+     * Triggers an alert for the monitoring system.
      */
+
     private void triggerAlert(Alert alert) {
-        // Implementation might involve logging the alert or notifying staff
-        alerts.add(alert);
+        Alert decoratedAlert = alert;
+        String condition = alert.getCondition().toLowerCase();
+        if (condition.contains("critical") || condition.contains("hypotensive") || condition.contains("rapid") || condition.contains("ecg")) {
+            decoratedAlert = new PriorityAlertDecorator(decoratedAlert, "HIGH");
+        }
+        if (condition.contains("trend") || condition.contains("triggered")) {
+            decoratedAlert = new RepeatedAlertDecorator(decoratedAlert, 3, 60000);
+        }
+        alerts.add(decoratedAlert);
     }
 
     public List<Alert> getAlerts() {
         return alerts;
     }
-
 }

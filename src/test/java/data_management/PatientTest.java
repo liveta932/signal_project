@@ -18,11 +18,9 @@ public class PatientTest {
     @Test
     public void testGetRecordsInsideTimeRange() {
         Patient patient = new Patient(1);
-
         patient.addRecord(100.0, "ECG", 1000L);
         patient.addRecord(200.0, "ECG", 2000L);
         patient.addRecord(300.0, "ECG", 3000L);
-
         List<PatientRecord> records = patient.getRecords(1500L, 2500L);
 
         assertEquals(1, records.size());
@@ -37,11 +35,9 @@ public class PatientTest {
     @Test
     public void testGetRecordsIncludesStartAndEndTime() {
         Patient patient = new Patient(1);
-
         patient.addRecord(100.0, "ECG", 1000L);
         patient.addRecord(200.0, "ECG", 2000L);
         patient.addRecord(300.0, "ECG", 3000L);
-
         List<PatientRecord> records = patient.getRecords(1000L, 3000L);
 
         assertEquals(3, records.size());
@@ -54,10 +50,8 @@ public class PatientTest {
     @Test
     public void testGetRecordsReturnsEmptyListWhenNoRecordsMatch() {
         Patient patient = new Patient(1);
-
         patient.addRecord(100.0, "ECG", 1000L);
         patient.addRecord(200.0, "ECG", 2000L);
-
         List<PatientRecord> records = patient.getRecords(3000L, 4000L);
 
         assertEquals(0, records.size());

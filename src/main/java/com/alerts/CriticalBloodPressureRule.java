@@ -12,6 +12,12 @@ import java.util.List;
 
 public class CriticalBloodPressureRule implements AlertRule {
 
+    private final AlertFactory alertFactory;
+
+    public CriticalBloodPressureRule() {
+        this.alertFactory = new BloodPressureAlertFactory();
+    }
+
     /**
      * Checks for critical blood pressure values.
      *
@@ -22,21 +28,18 @@ public class CriticalBloodPressureRule implements AlertRule {
     @Override
     public List<Alert> check(List<PatientRecord> records) {
         List<Alert> alerts = new ArrayList<>();
-
         for (PatientRecord record : records) {
             String type = record.getRecordType();
             double value = record.getMeasurementValue();
-
-            if ((type.equals("SystolicPressure") && (value > 180 || value < 90))) {
-                alerts.add(new Alert(String.valueOf(record.getPatientId()),
-                        "Critical systolic blood pressure", record.getTimestamp()));
+            if (type.equals("SystolicPressure") && (value > 180 || value < 90)) {
+                alerts.add(alertFactory.createAlert(String.valueOf(record.getPatientId()), "Critical systolic blood pressure", record.getTimestamp()));
             }
 
-            if ((type.equals("DiastolicPressure") && (value > 120 || value < 60))) {
-                alerts.add(new Alert(String.valueOf(record.getPatientId()),
-                        "Critical diastolic blood pressure", record.getTimestamp()));
+            if (type.equals("DiastolicPressure") && (value > 120 || value < 60)) {
+                alerts.add(alertFactory.createAlert(
+                        String.valueOf(record.getPatientId()), "Critical diastolic blood pressure", record.getTimestamp()));
             }
         }
-            return alerts;
-        }
+        return alerts;
     }
+}

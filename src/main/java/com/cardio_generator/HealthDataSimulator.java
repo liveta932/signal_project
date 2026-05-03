@@ -28,10 +28,30 @@ import java.util.ArrayList;
  */
 
 public class HealthDataSimulator {
+    private static HealthDataSimulator instance;
+
     private static int patientCount = 50; // Default number of patients
     private static ScheduledExecutorService scheduler;
     private static OutputStrategy outputStrategy = new ConsoleOutputStrategy(); // Default output strategy
     private static final Random random = new Random();
+
+    /**
+     * Private constructor for Singleton pattern.
+     */
+    private HealthDataSimulator() {
+    }
+
+    /**
+     * Returns the single instance of HealthDataSimulator.
+     *
+     * @return the single HealthDataSimulator instance
+     */
+    public static HealthDataSimulator getInstance() {
+        if (instance == null) {
+            instance = new HealthDataSimulator();
+        }
+        return instance;
+    }
 
     /**
      * Main method, program starts here.
@@ -41,6 +61,17 @@ public class HealthDataSimulator {
      * @throws IOException if output folder cannot be created
      */
     public static void main(String[] args) throws IOException {
+        HealthDataSimulator simulator = HealthDataSimulator.getInstance();
+        simulator.start(args);
+    }
+
+    /**
+     * Starts the simulation using the singleton instance.
+     *
+     * @param args arguments from command line
+     * @throws IOException if output folder cannot be created
+     */
+    public void start(String[] args) throws IOException {
 
         parseArguments(args);
 
