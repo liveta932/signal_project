@@ -1,6 +1,8 @@
-package data_management;
+package alert;
 
 import com.alerts.AlertGenerator;
+import data_management.DataStorage;
+import data_management.Patient;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

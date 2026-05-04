@@ -1,4 +1,4 @@
-package data_management;
+package alert;
 
 import com.alerts.*;
 import org.junit.jupiter.api.Test;

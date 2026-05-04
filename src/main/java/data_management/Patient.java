@@ -35,7 +35,14 @@ public class Patient {
      * @param timestamp        the time at which the measurement was taken, in
      *                         milliseconds since UNIX epoch
      */
+
     public void addRecord(double measurementValue, String recordType, long timestamp) {
+        for (PatientRecord existingRecord : this.patientRecords) {
+            if (existingRecord.getTimestamp() == timestamp && existingRecord.getRecordType().equals(recordType) &&
+                    existingRecord.getMeasurementValue() == measurementValue) {
+                return;
+            }
+        }
         PatientRecord record = new PatientRecord(this.patientId, measurementValue, recordType, timestamp);
         this.patientRecords.add(record);
     }

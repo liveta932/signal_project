@@ -56,4 +56,30 @@ public class PatientTest {
 
         assertEquals(0, records.size());
     }
+
+    /**
+     * Tests that the same record is not added twice.
+     */
+    @Test
+    public void testDuplicateRecordIsNotAdded() {
+        Patient patient = new Patient(1);
+        patient.addRecord(100.0, "ECG", 1000L);
+        patient.addRecord(100.0, "ECG", 1000L);
+        List<PatientRecord> records = patient.getRecords(0L, 2000L);
+
+        assertEquals(1, records.size());
+    }
+
+    /**
+     * Tests that different records are still added normally.
+     */
+    @Test
+    public void testDifferentRecordsAreAdded() {
+        Patient patient = new Patient(1);
+        patient.addRecord(100.0, "ECG", 1000L);
+        patient.addRecord(101.0, "ECG", 1001L);
+        List<PatientRecord> records = patient.getRecords(0L, 2000L);
+
+        assertEquals(2, records.size());
+    }
 }

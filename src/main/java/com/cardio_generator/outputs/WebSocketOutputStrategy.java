@@ -17,12 +17,24 @@ public class WebSocketOutputStrategy implements OutputStrategy {
 
     @Override
     public void output(int patientId, long timestamp, String label, String data) {
-        String message = String.format("%d,%d,%s,%s", patientId, timestamp, label, data);
+        String message = formatMessage(patientId, timestamp, label, data);
         // Broadcast the message to all connected clients
         for (WebSocket conn : server.getConnections()) {
             conn.send(message);
         }
     }
+
+    /**
+     * Creates a WebSocket message using the same format for all generated messages.
+     * @param patientId patient ID
+     * @param timestamp a timestamp when data was generated
+     * @param label type of data (ECG, Saturation, ...)
+     * @param data generated value
+     */
+    private String formatMessage(int patientId, long timestamp, String label, String data) {
+        return patientId + "," + timestamp + "," + label + "," + data;
+    }
+
 
     private static class SimpleWebSocketServer extends WebSocketServer {
 

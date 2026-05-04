@@ -1,6 +1,7 @@
-package data_management;
+package alert;
 
 import com.alerts.*;
+import data_management.PatientRecord;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

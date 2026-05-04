@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class FileDataReader implements DataReader {
     private final String directoryPath;
+    private final DataLineReader lineReader = new DataLineReader();
 
     /**
      * Reads patient data from files in a folder and stores it in a DataStorage object.
@@ -51,42 +52,8 @@ public class FileDataReader implements DataReader {
         Scanner scanner = new Scanner(file);
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            readLine(line, dataStorage);
+            lineReader.readLine(line, dataStorage);
         }
         scanner.close();
     }
-
-    /**
-     * Reads one line of text, gets the patient data from it, and stores it.
-     *
-     * @param line one line from the data file
-     * @param dataStorage the storage object where the data will be saved
-     */
-
-    private void readLine(String line, DataStorage dataStorage) {
-        try {
-            String[] parts = line.split(",");
-            String patientPart = parts[0];
-            String timePart = parts[1];
-            String labelPart = parts[2];
-            String dataPart = parts[3];
-            int patientId = Integer.parseInt(patientPart.split(":")[1].trim());
-            long timestamp = Long.parseLong(timePart.split(":")[1].trim());
-            String label = labelPart.split(":")[1].trim();
-            String dataText = dataPart.split(":")[1].trim();
-            double value;
-
-            if (dataText.equalsIgnoreCase("triggered")) { value = 1.0; }
-            else if (dataText.equalsIgnoreCase("resolved")) { value = 0.0;}
-            else {
-                dataText = dataText.replace("%", "");
-                value = Double.parseDouble(dataText);
-            }
-
-            dataStorage.addPatientData(patientId, value, label, timestamp);
-        } catch (Exception e) {
-            System.err.println("Could not read this line: " + line);
-        }
-    }
-
 }
