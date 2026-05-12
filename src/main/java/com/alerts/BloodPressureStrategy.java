@@ -5,6 +5,10 @@ import data_management.PatientRecord;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Strategy class for checking blood pressure alerts.
+ */
+
 public class BloodPressureStrategy implements AlertStrategy {
 
     private final CriticalBloodPressureRule criticalBloodPressureRule;
@@ -15,6 +19,11 @@ public class BloodPressureStrategy implements AlertStrategy {
         this.bloodPressureTrendRule = new BloodPressureTrendRule();
     }
 
+    /**
+     * Checks patient records for blood pressure alerts.
+     * @param records the patient records to check
+     * @return a list of blood pressure alerts
+     */
     @Override
     public List<Alert> checkAlert(List<PatientRecord> records) {
         List<Alert> alerts = new ArrayList<>();

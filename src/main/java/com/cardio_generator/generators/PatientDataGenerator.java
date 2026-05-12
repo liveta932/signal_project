@@ -12,7 +12,6 @@ public interface PatientDataGenerator {
 
     /**
      * Generates data for one patient and passes it to the selected output.
-     *
      * @param patientId ID of the patient
      * @param outputStrategy output method for the generated data
      */

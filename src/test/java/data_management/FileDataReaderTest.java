@@ -11,6 +11,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests that patient data can be read from a file.
+ */
+
 public class FileDataReaderTest {
 
     private DataStorage storage;
@@ -18,11 +22,19 @@ public class FileDataReaderTest {
     @TempDir
     Path tempDirectory;
 
+    /**
+     * Sets up clean storage before each test.
+     */
+
     @BeforeEach
     public void setUp() {
         storage = DataStorage.getInstance();
         storage.clear();
     }
+
+    /**
+     * Tests that data from a file is read and stored correctly.
+     */
 
     @Test
     public void testReadDataFromFile() throws Exception {

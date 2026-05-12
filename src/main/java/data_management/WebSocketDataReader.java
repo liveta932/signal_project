@@ -14,12 +14,12 @@ import java.net.URISyntaxException;
 
 public class WebSocketDataReader implements DataReader {
 
-    private final String serverAdress;
+    private final String serverAddress;
     private WebSocketClient client;
     private final DataLineReader lineReader = new DataLineReader();
 
-    public WebSocketDataReader(String serverAdress) {
-        this.serverAdress = serverAdress;
+    public WebSocketDataReader(String serverAddress) {
+        this.serverAddress = serverAddress;
     }
 
     /**
@@ -31,11 +31,11 @@ public class WebSocketDataReader implements DataReader {
     @Override
     public void readData(DataStorage dataStorage) throws IOException {
         try {
-            URI serverURI = new URI(serverAdress);
+            URI serverURI = new URI(serverAddress);
             client = new WebSocketClient(serverURI) {
                 @Override
                 public void onOpen(ServerHandshake serverHandshake) {
-                    System.out.println("Connected to " + serverAdress);
+                    System.out.println("Connected to " + serverAddress);
                 }
 
                 @Override
@@ -61,10 +61,19 @@ public class WebSocketDataReader implements DataReader {
                     System.err.println("Error: " + e.getMessage());
                 }
             };
-            client.connect();
-        } catch (URISyntaxException e){
-            throw new IOException("Invalid Websocket address: " + serverAdress, e);
 
+            boolean connected = client.connectBlocking();
+
+            if (!connected) {
+                throw new IOException("Could not connect to WebSocket server: " + serverAddress);
+            }
+
+        } catch (URISyntaxException e){
+            throw new IOException("Invalid Websocket address: " + serverAddress, e);
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("WebSocket connection was interrupted", e);
         }
     }
 

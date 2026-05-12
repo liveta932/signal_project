@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Tests the Patient class. It checks if Patient can return records correctly between a given start time and end time.
  */
+
 public class PatientTest {
 
     /**
@@ -60,6 +61,7 @@ public class PatientTest {
     /**
      * Tests that the same record is not added twice.
      */
+
     @Test
     public void testDuplicateRecordIsNotAdded() {
         Patient patient = new Patient(1);
@@ -73,6 +75,7 @@ public class PatientTest {
     /**
      * Tests that different records are still added normally.
      */
+
     @Test
     public void testDifferentRecordsAreAdded() {
         Patient patient = new Patient(1);

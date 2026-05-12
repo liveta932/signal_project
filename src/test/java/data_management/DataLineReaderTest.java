@@ -7,10 +7,18 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests that data lines are read correctly and stored as patient records.
+ */
+
 public class DataLineReaderTest {
 
     private DataStorage storage;
     private DataLineReader lineReader;
+
+    /**
+     * Sets up clean storage and a new line reader before each test.
+     */
 
     @BeforeEach
     public void setUp() {
@@ -18,6 +26,10 @@ public class DataLineReaderTest {
         storage.clear();
         lineReader = new DataLineReader();
     }
+
+    /**
+     * Tests that websocket format data is read correctly.
+     */
 
     @Test
     public void testReadWebSocketFormat() {
@@ -31,6 +43,10 @@ public class DataLineReaderTest {
         assertEquals(1000, records.get(0).getTimestamp());
     }
 
+    /**
+     * Tests that file format data is read correctly.
+     */
+
     @Test
     public void testReadFileFormat() {
         lineReader.readLine("Patient ID: 2, Timestamp: 2000, Label: Saturation, Data: 98%", storage);
@@ -43,6 +59,10 @@ public class DataLineReaderTest {
         assertEquals(2000, records.get(0).getTimestamp());
     }
 
+    /**
+     * Tests that a triggered alert is read correctly.
+     */
+
     @Test
     public void testReadTriggeredAlert() {
         lineReader.readLine("3,3000,Alert,triggered", storage);
@@ -52,6 +72,10 @@ public class DataLineReaderTest {
         assertEquals("Alert", records.get(0).getRecordType());
         assertEquals(1.0, records.get(0).getMeasurementValue());
     }
+
+    /**
+     * Tests that a resolved alert is read correctly.
+     */
 
     @Test
     public void testReadResolvedAlert() {

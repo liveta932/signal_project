@@ -11,7 +11,6 @@ public interface AlertRule {
 
     /**
      * Checks patient records and returns any alerts that should be created.
-     *
      * @param records the patient records to check
      * @return a list of alerts created by this rule
      */

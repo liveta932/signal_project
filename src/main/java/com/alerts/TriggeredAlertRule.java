@@ -5,6 +5,10 @@ import data_management.PatientRecord;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Rule class for checking patient or nurse triggered alerts.
+ */
+
 public class TriggeredAlertRule implements AlertRule {
 
     private final AlertFactory alertFactory;
@@ -12,6 +16,12 @@ public class TriggeredAlertRule implements AlertRule {
     public TriggeredAlertRule() {
         this.alertFactory = new TriggeredAlertFactory();
     }
+
+    /**
+     * Checks patient records for triggered alerts.
+     * @param records the patient records to check
+     * @return a list of triggered alerts
+     */
 
     @Override
     public List<Alert> check(List<PatientRecord> records) {

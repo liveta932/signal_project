@@ -5,7 +5,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests that alert factories create alerts with the correct values.
+ */
+
 public class AlertFactoryTest {
+
+    /**
+     * Tests that the blood pressure alert factory creates the correct alert.
+     */
 
     @Test
     public void testBloodPressureAlertFactoryCreatesAlert() {
@@ -17,6 +25,10 @@ public class AlertFactoryTest {
         assertEquals(1000L, basicAlert.getTimestamp());
     }
 
+    /**
+     * Tests that the blood oxygen alert factory creates the correct alert.
+     */
+
     @Test
     public void testBloodOxygenAlertFactoryCreatesAlert() {
         AlertFactory factory = new BloodOxygenAlertFactory();
@@ -27,6 +39,10 @@ public class AlertFactoryTest {
         assertEquals(2000L, basicAlert.getTimestamp());
     }
 
+    /**
+     * Tests that the ECG alert factory creates the correct alert.
+     */
+
     @Test
     public void testECGAlertFactoryCreatesAlert() {
         AlertFactory factory = new ECGAlertFactory();
@@ -36,6 +52,10 @@ public class AlertFactoryTest {
         assertEquals("Abnormal ECG peak", basicAlert.getCondition());
         assertEquals(3000L, basicAlert.getTimestamp());
     }
+
+    /**
+     * Tests that the triggered alert factory creates the correct alert.
+     */
 
     @Test
     public void testTriggeredAlertFactoryCreatesAlert() {

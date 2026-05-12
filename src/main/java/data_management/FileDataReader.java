@@ -18,7 +18,6 @@ public class FileDataReader implements DataReader {
 
     /**
      * Reads all files from the folder and stores the data in DataStorage.
-     *
      * @param dataStorage the storage object where the patient data will be saved
      * @throws IOException if the folder cannot be found or read
      */
@@ -42,7 +41,6 @@ public class FileDataReader implements DataReader {
 
     /**
      * Reads one file line by line.
-     *
      * @param file the file that will be read
      * @param dataStorage the storage object where the data will be saved
      * @throws IOException if the file cannot be opened or read

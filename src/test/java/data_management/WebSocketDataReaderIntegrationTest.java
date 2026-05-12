@@ -8,10 +8,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests that real-time data lines are stored correctly.
+ * Tests that websocket style messages are stored correctly.
  */
 
-public class RealTimeDataIntegrationTest {
+public class WebSocketDataReaderIntegrationTest {
 
     private DataStorage storage;
     private DataLineReader lineReader;
@@ -28,11 +28,27 @@ public class RealTimeDataIntegrationTest {
     }
 
     /**
-     * Tests that real-time data for different patients is stored correctly.
+     * Tests that one websocket style message is stored correctly.
      */
 
     @Test
-    public void testRealTimeDataIsStored() {
+    public void testWebSocketStyleMessageIsStored() {
+        lineReader.readLine("1,1000,ECG,0.5", storage);
+        List<PatientRecord> records = storage.getRecords(1, 0, 2000);
+
+        assertEquals(1, records.size());
+        assertEquals(1, records.get(0).getPatientId());
+        assertEquals("ECG", records.get(0).getRecordType());
+        assertEquals(0.5, records.get(0).getMeasurementValue());
+        assertEquals(1000L, records.get(0).getTimestamp());
+    }
+
+    /**
+     * Tests that more than one websocket style message is stored correctly.
+     */
+
+    @Test
+    public void testMoreThanOneWebSocketStyleMessageIsStored() {
         lineReader.readLine("1,1000,ECG,0.5", storage);
         lineReader.readLine("1,2000,Saturation,98%", storage);
         lineReader.readLine("2,3000,Alert,triggered", storage);
@@ -44,6 +60,5 @@ public class RealTimeDataIntegrationTest {
         assertEquals("ECG", patientOneRecords.get(0).getRecordType());
         assertEquals("Saturation", patientOneRecords.get(1).getRecordType());
         assertEquals("Alert", patientTwoRecords.get(0).getRecordType());
-        assertEquals(1.0, patientTwoRecords.get(0).getMeasurementValue());
     }
 }

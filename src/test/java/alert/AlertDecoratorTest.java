@@ -8,7 +8,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Tests the alert decorators and checks that alerts keep the correct values.
+ */
+
 public class AlertDecoratorTest {
+
+    /**
+     * Tests that a basic alert stores its patient ID, condition, and timestamp.
+     */
 
     @Test
     public void testBasicAlertStoresValues() {
@@ -18,6 +26,10 @@ public class AlertDecoratorTest {
         assertEquals("Low blood oxygen saturation", alert.getCondition());
         assertEquals(1000L, alert.getTimestamp());
     }
+
+    /**
+     * Tests that the priority decorator adds priority text to the alert condition.
+     */
 
     @Test
     public void testPriorityAlertDecoratorAddsPriority() {
@@ -29,6 +41,10 @@ public class AlertDecoratorTest {
         assertTrue(decoratedAlert.getCondition().contains("Critical systolic blood pressure"));
         assertEquals(1000L, decoratedAlert.getTimestamp());
     }
+
+    /**
+     * Tests that the repeated decorator adds repeat information to the alert condition.
+     */
 
     @Test
     public void testRepeatedAlertDecoratorAddsRepeatInformation() {
@@ -43,6 +59,10 @@ public class AlertDecoratorTest {
         assertEquals(1000L, decoratedAlert.getTimestamp());
     }
 
+    /**
+     * Tests that priority and repeated decorators can be used together.
+     */
+
     @Test
     public void testDecoratorsCanBeCombined() {
         Alert alert = new BasicAlert("1", "Critical systolic blood pressure", 1000L);
@@ -55,6 +75,10 @@ public class AlertDecoratorTest {
         assertTrue(decoratedAlert.getCondition().contains("Critical systolic blood pressure"));
         assertEquals(1000L, decoratedAlert.getTimestamp());
     }
+
+    /**
+     * Tests that the alert generator adds the priority decorator to critical alerts.
+     */
 
     @Test
     public void testAlertGeneratorAppliesPriorityDecorator() {
@@ -69,6 +93,10 @@ public class AlertDecoratorTest {
         assertTrue(alertGenerator.getAlerts().get(0).getCondition().contains("Priority: HIGH"));
         assertTrue(alertGenerator.getAlerts().get(0).getCondition().contains("Critical systolic blood pressure"));
     }
+
+    /**
+     * Tests that the alert generator adds the repeated decorator to repeated alerts.
+     */
 
     @Test
     public void testAlertGeneratorAppliesRepeatedDecorator() {

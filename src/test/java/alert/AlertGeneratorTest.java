@@ -67,4 +67,21 @@ public class AlertGeneratorTest {
 
         assertEquals(0, alertGenerator.getAlerts().size());
     }
+
+    /**
+     * Tests if AlertGenerator creates an alert for a patient/nurse triggered alert.
+     */
+
+    @Test
+    public void testEvaluateDataCreatesTriggeredAlert() {
+        DataStorage dataStorage = DataStorage.getInstance();
+        dataStorage.clear();
+        dataStorage.addPatientData(1, 1.0, "Alert", 1000L);
+        Patient patient = dataStorage.getAllPatients().get(0);
+        AlertGenerator alertGenerator = new AlertGenerator(dataStorage);
+        alertGenerator.evaluateData(patient);
+
+        assertEquals(1, alertGenerator.getAlerts().size());
+        assertTrue(alertGenerator.getAlerts().get(0).getCondition().contains("triggered"));
+    }
 }

@@ -17,7 +17,6 @@ public class AlertGenerator {
 
     /**
      * Constructs an AlertGenerator with a specified DataStorage.
-     *
      * @param dataStorage the data storage system that provides access to patient data
      */
 
@@ -29,11 +28,11 @@ public class AlertGenerator {
         strategies.add(new BloodPressureStrategy());
         strategies.add(new OxygenSaturationStrategy());
         strategies.add(new HeartRateStrategy());
+        strategies.add(new TriggeredAlertStrategy());
     }
 
     /**
      * Evaluates the specified patient's data to determine if any alert conditions are met.
-     *
      * @param patient the patient data to evaluate for alert conditions
      */
 

@@ -9,7 +9,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Tests that alert strategies create the correct alerts from patient records.
+ */
+
 public class AlertStrategyTest {
+
+    /**
+     * Tests that the blood pressure strategy creates a critical pressure alert.
+     */
 
     @Test
     public void testBloodPressureStrategyCreatesCriticalPressureAlert() {
@@ -20,6 +28,10 @@ public class AlertStrategyTest {
         assertEquals(1, alerts.size());
         assertTrue(alerts.get(0).getCondition().contains("systolic"));
     }
+
+    /**
+     * Tests that the blood pressure strategy creates an increasing trend alert.
+     */
 
     @Test
     public void testBloodPressureStrategyCreatesTrendAlert() {
@@ -35,6 +47,10 @@ public class AlertStrategyTest {
         assertTrue(alerts.get(0).getCondition().contains("Increasing"));
     }
 
+    /**
+     * Tests that the oxygen saturation strategy creates a low saturation alert.
+     */
+
     @Test
     public void testOxygenSaturationStrategyCreatesLowSaturationAlert() {
         AlertStrategy strategy = new OxygenSaturationStrategy();
@@ -44,6 +60,10 @@ public class AlertStrategyTest {
         assertEquals(1, alerts.size());
         assertTrue(alerts.get(0).getCondition().contains("saturation"));
     }
+
+    /**
+     * Tests that the heart rate strategy creates an ECG alert.
+     */
 
     @Test
     public void testHeartRateStrategyCreatesEcgAlert() {
